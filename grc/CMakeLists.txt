@@ -16,11 +16,13 @@
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-install(FILES
-    ysf_deframer_bb.xml
-    ysf_fich_sink_b.xml
-    ysf_dch_sink_b.xml
-    ysf_vd2_vch_decoder_bb.xml
-    ysf_mbelib_block_bf.xml
-    ysf_fr_vch_decoder_bb.xml DESTINATION share/gnuradio/grc/blocks
+
+install(
+	FILES ysf_deframer_bb.xml
+			ysf_fich_sink_b.xml
+			ysf_dch_sink_b.xml
+			ysf_vd2_vch_decoder_bb.xml
+			ysf_mbelib_block_bf.xml
+			ysf_fr_vch_decoder_bb.xml
+	DESTINATION share/gnuradio/grc/blocks
 )

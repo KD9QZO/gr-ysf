@@ -18,50 +18,49 @@
 # Boston, MA 02110-1301, USA.
 
 if(DEFINED __INCLUDED_GR_PYTHON_CMAKE)
-    return()
+	return()
 endif()
 set(__INCLUDED_GR_PYTHON_CMAKE TRUE)
+
 
 ########################################################################
 # Setup the python interpreter:
 # This allows the user to specify a specific interpreter,
 # or finds the interpreter via the built-in cmake module.
 ########################################################################
-#this allows the user to override PYTHON_EXECUTABLE
+
+# this allows the user to override PYTHON_EXECUTABLE
 if(PYTHON_EXECUTABLE)
-
-    set(PYTHONINTERP_FOUND TRUE)
-
-#otherwise if not set, try to automatically find it
+	set(PYTHONINTERP_FOUND TRUE)
+# otherwise if not set, try to automatically find it
 else(PYTHON_EXECUTABLE)
+	# use the built-in find script
+	find_package(PythonInterp 2)
 
-    #use the built-in find script
-    find_package(PythonInterp 2)
-
-    #and if that fails use the find program routine
-    if(NOT PYTHONINTERP_FOUND)
-        find_program(PYTHON_EXECUTABLE NAMES python python2 python2.7 python2.6 python2.5)
-        if(PYTHON_EXECUTABLE)
-            set(PYTHONINTERP_FOUND TRUE)
-        endif(PYTHON_EXECUTABLE)
-    endif(NOT PYTHONINTERP_FOUND)
-
+	# and if that fails use the find program routine
+	if(NOT PYTHONINTERP_FOUND)
+		find_program(PYTHON_EXECUTABLE NAMES python python2 python2.7 python2.6 python2.5)
+		if(PYTHON_EXECUTABLE)
+			set(PYTHONINTERP_FOUND TRUE)
+		endif(PYTHON_EXECUTABLE)
+	endif(NOT PYTHONINTERP_FOUND)
 endif(PYTHON_EXECUTABLE)
 
-#make the path to the executable appear in the cmake gui
+# make the path to the executable appear in the cmake gui
 set(PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE} CACHE FILEPATH "python interpreter")
 
-#make sure we can use -B with python (introduced in 2.6)
+# make sure we can use -B with python (introduced in 2.6)
 if(PYTHON_EXECUTABLE)
-    execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} -B -c ""
-        OUTPUT_QUIET ERROR_QUIET
-        RESULT_VARIABLE PYTHON_HAS_DASH_B_RESULT
-    )
-    if(PYTHON_HAS_DASH_B_RESULT EQUAL 0)
-        set(PYTHON_DASH_B "-B")
-    endif()
+	execute_process(
+		COMMAND ${PYTHON_EXECUTABLE} -B -c ""
+		OUTPUT_QUIET ERROR_QUIET
+		RESULT_VARIABLE PYTHON_HAS_DASH_B_RESULT
+	)
+	if(PYTHON_HAS_DASH_B_RESULT EQUAL 0)
+		set(PYTHON_DASH_B "-B")
+	endif()
 endif(PYTHON_EXECUTABLE)
+
 
 ########################################################################
 # Check for the existence of a python module:
@@ -70,6 +69,7 @@ endif(PYTHON_EXECUTABLE)
 # - cmd an additional command to run
 # - have the result variable to set
 ########################################################################
+
 macro(GR_PYTHON_CHECK_MODULE desc mod cmd have)
     message(STATUS "")
     message(STATUS "Python checking for ${desc}")
@@ -92,9 +92,11 @@ except: exit(-1)
     endif(${have} EQUAL 0)
 endmacro(GR_PYTHON_CHECK_MODULE)
 
+
 ########################################################################
 # Sets the python installation directory GR_PYTHON_DIR
 ########################################################################
+
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
 from distutils import sysconfig
 print sysconfig.get_python_lib(plat_specific=True, prefix='')
@@ -102,10 +104,12 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
 )
 file(TO_CMAKE_PATH ${GR_PYTHON_DIR} GR_PYTHON_DIR)
 
+
 ########################################################################
 # Create an always-built target with a unique name
 # Usage: GR_UNIQUE_TARGET(<description> <dependencies list>)
 ########################################################################
+
 function(GR_UNIQUE_TARGET desc)
     file(RELATIVE_PATH reldir ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})
     execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import re, hashlib
@@ -115,9 +119,11 @@ print(re.sub('\\W', '_', '${desc} ${reldir} ' + unique))"
     add_custom_target(${_target} ALL DEPENDS ${ARGN})
 endfunction(GR_UNIQUE_TARGET)
 
+
 ########################################################################
 # Install python sources (also builds and installs byte-compiled python)
 ########################################################################
+
 function(GR_PYTHON_INSTALL)
     include(CMakeParseArgumentsCopy)
     CMAKE_PARSE_ARGUMENTS(GR_PYTHON_INSTALL "" "DESTINATION;COMPONENT" "FILES;PROGRAMS" ${ARGN})
@@ -215,9 +221,11 @@ function(GR_PYTHON_INSTALL)
 
 endfunction(GR_PYTHON_INSTALL)
 
+
 ########################################################################
 # Write the python helper script that generates byte code files
 ########################################################################
+
 file(WRITE ${CMAKE_BINARY_DIR}/python_compile_helper.py "
 import sys, py_compile
 files = sys.argv[1:]

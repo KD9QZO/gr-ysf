@@ -33,8 +33,7 @@ namespace gr {
      * \ingroup ysf
      *
      */
-    class YSF_API vd2_vch_decoder_bb : virtual public gr::block
-    {
+    class YSF_API vd2_vch_decoder_bb: virtual public gr::block {
      public:
       typedef boost::shared_ptr<vd2_vch_decoder_bb> sptr;
 

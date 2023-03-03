@@ -19,8 +19,9 @@
 # The presence of this file turns this directory into a Python package
 
 '''
-This is the GNU Radio YSF module. Place your Python package
-description here (python/__init__.py).
+This is the GNU Radio YSF module.
+
+Place your Python package description here (python/__init__.py).
 '''
 
 # import swig generated symbols into the ysf namespace

@@ -20,28 +20,32 @@
 ########################################################################
 # Check if there is C++ code at all
 ########################################################################
+
 if(NOT ysf_sources)
-	MESSAGE(STATUS "No C++ sources... skipping swig/")
+	message(STATUS "No C++ sources... skipping swig/")
 	return()
 endif(NOT ysf_sources)
+
 
 ########################################################################
 # Include swig generation macros
 ########################################################################
+
 find_package(SWIG)
 find_package(PythonLibs 2)
 if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
-    return()
+	return()
 endif()
 include(GrSwig)
 include(GrPython)
 
+
 ########################################################################
 # Setup swig generation
 ########################################################################
+
 set(GR_SWIG_INCLUDE_DIRS $<TARGET_PROPERTY:gnuradio::runtime_swig,INTERFACE_INCLUDE_DIRECTORIES>)
 set(GR_SWIG_TARGET_DEPS gnuradio::runtime_swig)
-
 
 set(GR_SWIG_LIBRARIES gnuradio-ysf)
 set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/ysf_swig_doc.i)
@@ -49,17 +53,20 @@ set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
 GR_SWIG_MAKE(ysf_swig ysf_swig.i)
 
+
 ########################################################################
 # Install the build swig module
 ########################################################################
+
 GR_SWIG_INSTALL(TARGETS ysf_swig DESTINATION ${GR_PYTHON_DIR}/ysf)
+
 
 ########################################################################
 # Install swig .i files for development
 ########################################################################
+
 install(
-    FILES
-    ysf_swig.i
-    ${CMAKE_CURRENT_BINARY_DIR}/ysf_swig_doc.i
-    DESTINATION ${GR_INCLUDE_DIR}/ysf/swig
+	FILES ysf_swig.i
+			${CMAKE_CURRENT_BINARY_DIR}/ysf_swig_doc.i
+	DESTINATION ${GR_INCLUDE_DIR}/ysf/swig
 )

@@ -19,15 +19,17 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_YSF_API_H
-#define INCLUDED_YSF_API_H
+#ifndef INCLUDED_YSF_API_H_
+#define INCLUDED_YSF_API_H_
 
 #include <gnuradio/attributes.h>
 
+
 #ifdef gnuradio_ysf_EXPORTS
-#  define YSF_API __GR_ATTR_EXPORT
+#define YSF_API __GR_ATTR_EXPORT
 #else
-#  define YSF_API __GR_ATTR_IMPORT
+#define YSF_API __GR_ATTR_IMPORT
 #endif
 
-#endif /* INCLUDED_YSF_API_H */
+
+#endif	/* !INCLUDED_YSF_API_H_ */
