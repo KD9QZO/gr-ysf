@@ -1,1 +1,23 @@
+#
+# .gitignore
+#
+
+## BACKUP & TEMPORARY FILES ##
+
+*~
+*.bak
+*.tmp
+*.swp
+
+
+## BUILD ARTIFACTS ##
+
+*.o
+*.so
+
+build/
 /build/
+**/build/
+build-*/
+/build-*/
+**/build-*/
